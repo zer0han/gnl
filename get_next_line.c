@@ -12,31 +12,6 @@
 
 #include "get_next_line.h"
 
-/*char	*get_next_line(int fd)
-{
-	static int	counter;
-	long		buffer_size;
-	long		i;
-	char		*line;
-
-	counter = 0;
-	buffer_size = 0;
-	i = 0;
-	while (line[i])
-	{
-		read (fd, &line, buffer_size);
-		counter++;
-		i++;
-	}
-	if (line[i])
-		return (NULL);
-	if (!line[i])
-	{
-		free (line);
-		return (NULL);
-	}
-	return (line);
-}*/
 	// should read the text file pointed by the fd one line at a time 
 	// can use static counter to read the lines
 	// return value: the line that was read end with \n
@@ -45,9 +20,52 @@
 	// try to read as little as possible.
 	// don't read the file first and then  process it line by line (TO)
 
-char	ft_extract_line(char *buffer)
+char	*ft_extract_line(char *buffer)
 {
-	int	i;
+	int		i;
+	char	*line;
+
+	i = 0;
+	if (!buffer)
+		return (NULL);
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	line = (char *)malloc((i + 2) * sizeof(char));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
+	{
+		line[i] = buffer[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
+char	*ft_get_remaining(char *buffer)
+{
+	int		i;
+	int		j;
+	char	*new_buffer;
+
+	i = 0;
+	j = 0;
+	while (buffer[i] && buffer[i] != '\0')
+		i++;
+	if (!buffer[i])
+	{
+		free (buffer);
+		return (NULL);
+	}
+	new_buffer = (char *)malloc((ft_strlen(buffer) - i + 1) * sizeof(char));
+	if (!new_buffer)
+		return (NULL);
+	while (buffer[i])
+		new_buffer[j++] = buffer[i++];
+	new_buffer[j] = '\0';
+	free (buffer);
+	return (buffer);
 }
 
 char	*get_next_line(int fd)
@@ -55,15 +73,19 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*buffer;
 
-	if (fd < 0 || read(fd, NULL, 0) || BUFFER_SIZE <= 0)
+	if (fd < 0 || read(fd, NULL, 0) == -1 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!buffer)
+	{
 		buffer = (char *)malloc(1 * sizeof(char));
+		buffer[0] = '\0';
+	}
 	if (!ft_strchr(buffer, '\n'))
 		buffer = ft_read(buffer, fd);
-	if (!buffer[fd])
+	if (!buffer || buffer[0] == '\0')
 	{
 		free (buffer);
+		buffer = NULL;
 		return (NULL);
 	}
 	line = ft_extract_line(buffer);

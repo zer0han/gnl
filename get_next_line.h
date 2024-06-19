@@ -22,13 +22,15 @@ char	*get_next_line(int fd);
 
 char	*ft_read(char *buffer, int fd);
 
-char	ft_change_buffer(char *buffer, char *read_buffer);
+char	*ft_change_buffer(char *buffer, char *read_buffer);
 
 char	*ft_strchr(char *str, int c);
 
-char    ft_extract_line(char *buffer);
+char    *ft_extract_line(char *buffer);
 
-char    ft_get_remaining(char *buffer);
+size_t  ft_strlen(char *str);
+
+char    *ft_get_remaining(char *buffer);
 
 #endif
 
