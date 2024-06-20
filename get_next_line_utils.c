@@ -12,27 +12,41 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(char *str)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	size_t	len;
+	size_t			i;
+	size_t			size_total;
+	unsigned char	*pntr;
 
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
+	if (nmemb != 0 && size != 0 && ((size_t) - 1 / nmemb < size))
+		return (NULL);
+	size_total = nmemb * size;
+	pntr = malloc(size_total);
+	if (pntr == NULL)
+		return (NULL);
+	i = 0;
+	while (i < size_total)
+	{
+		pntr[i] = 0;
+		i++;
+	}
+	return (pntr);
 }
 
 static char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*result;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
 	result = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!result)
+	{
+		free (result);
 		return (NULL);
+	}	
 	while (s1 && s1[i])
 	{
 		result[i] = s1[i];
@@ -61,17 +75,7 @@ char	*ft_strchr(char *str, int c)
 	}
 	if (str[i] == (char) c)
 		return (&str[i]);
-	else
-		return (NULL);
-}
-
-char	*ft_change_buffer(char *buffer, char *read_buffer)
-{
-	char	*temp;
-
-	temp = ft_strjoin(buffer, read_buffer);
-	free (buffer);
-	return (temp);
+	return (NULL);
 }
 
 char	*ft_read(char *buffer, int fd)
@@ -79,7 +83,7 @@ char	*ft_read(char *buffer, int fd)
 	char	*buf;
 	int		read_bytes;
 
-	buf = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buf = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	if (!buf)
 		return (NULL);
 	read_bytes = 1;
@@ -92,10 +96,10 @@ char	*ft_read(char *buffer, int fd)
 			return (NULL);
 		}
 		buf[read_bytes] = '\0';
-		buffer = ft_change_buffer (buffer, buf);
+		buffer = ft_strjoin (buffer, buf);
 		if (ft_strchr(buffer, '\n'))
 			return (buf);
 	}
-	free (buf);
+	free (buffer);
 	return (buffer);
 }

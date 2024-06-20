@@ -22,18 +22,18 @@ char	*get_next_line(int fd);
 
 char	*ft_read(char *buffer, int fd);
 
-char	*ft_change_buffer(char *buffer, char *read_buffer);
-
 char	*ft_strchr(char *str, int c);
 
-char    *ft_extract_line(char *buffer);
+char	*ft_extract_line(char *buffer);
 
-size_t  ft_strlen(char *str);
+size_t	ft_strlen(char *str);
 
-char    *ft_get_remaining(char *buffer);
+char	*ft_get_remaining(char *buffer);
+
+void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
+# define BUFFER_SIZE 10
 #endif
