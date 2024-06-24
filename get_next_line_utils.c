@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:31:19 by rdalal            #+#    #+#             */
-/*   Updated: 2024/06/17 16:31:20 by rdalal           ###   ########.fr       */
+/*   Updated: 2024/06/24 21:30:30 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		return (NULL);
 	size_total = nmemb * size;
 	pntr = malloc(size_total);
-	if (pntr == NULL)
+	if (!pntr)
 		return (NULL);
 	i = 0;
 	while (i < size_total)
@@ -33,7 +33,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (pntr);
 }
 
-static char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*result;
 	size_t	i;
@@ -41,12 +41,11 @@ static char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
+	if (!s1 && !s2)
+		return (NULL);
 	result = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!result)
-	{
-		free (result);
 		return (NULL);
-	}	
 	while (s1 && s1[i])
 	{
 		result[i] = s1[i];
@@ -58,7 +57,7 @@ static char	*ft_strjoin(char *s1, char *s2)
 		j++;
 	}
 	result[i + j] = '\0';
-	free (result);
+	free (s1);
 	return (result);
 }
 
@@ -78,28 +77,29 @@ char	*ft_strchr(char *str, int c)
 	return (NULL);
 }
 
-char	*ft_read(char *buffer, int fd)
+char	*ft_read(char *str, int fd)
 {
-	char	*buf;
-	int		read_bytes;
+	char	*buffer;
+	int		bytes_read;
 
-	buf = (char *)ft_calloc((BUFFER_SIZE + 1), sizeof(char));
-	if (!buf)
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (free(str), NULL);
+	if (!str)
+		str = ft_calloc(1, 1);
+	if (!str)
 		return (NULL);
-	read_bytes = 1;
-	while (read_bytes > 0)
+	bytes_read = 1;
+	while (bytes_read > 0)
 	{
-		read_bytes = read(fd, buf, BUFFER_SIZE);
-		if (read_bytes == -1)
-		{
-			free (buf);
-			return (NULL);
-		}
-		buf[read_bytes] = '\0';
-		buffer = ft_strjoin (buffer, buf);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read < 0)
+			return (free(str), free(buffer), NULL);
+		buffer[bytes_read] = '\0';
+		str = ft_strjoin (str, buffer);
 		if (ft_strchr(buffer, '\n'))
-			return (buf);
+			break ;
 	}
 	free (buffer);
-	return (buffer);
+	return (str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdalal <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:31:11 by rdalal            #+#    #+#             */
-/*   Updated: 2024/06/17 16:31:13 by rdalal           ###   ########.fr       */
+/*   Updated: 2024/06/24 21:12:07 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@
 
 char	*get_next_line(int fd);
 
-char	*ft_read(char *buffer, int fd);
+char	*ft_read(char *str, int fd);
 
 char	*ft_strchr(char *str, int c);
+
+char    *ft_strjoin(char *s1, char *s2);
 
 char	*ft_extract_line(char *buffer);
 
