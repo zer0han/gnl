@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:31:19 by rdalal            #+#    #+#             */
-/*   Updated: 2024/06/24 21:30:30 by rdalal           ###   ########.fr       */
+/*   Updated: 2024/06/29 17:23:00 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,5 @@ char	*ft_read(char *str, int fd)
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
-	free (buffer);
-	return (str);
+	return (free(buffer), str);
 }
