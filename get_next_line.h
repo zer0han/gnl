@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:31:11 by rdalal            #+#    #+#             */
-/*   Updated: 2024/06/29 17:22:47 by rdalal           ###   ########.fr       */
+/*   Updated: 2024/07/04 18:16:55 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdarg.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 20
 # endif
 
 char	*get_next_line(int fd);
@@ -37,5 +37,7 @@ size_t	ft_strlen(char *str);
 char	*ft_get_remaining(char *buffer);
 
 void	*ft_calloc(size_t nmemb, size_t size);
+
+void	ft_clean(void);
 
 #endif
