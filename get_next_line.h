@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:31:11 by rdalal            #+#    #+#             */
-/*   Updated: 2024/06/24 21:12:07 by rdalal           ###   ########.fr       */
+/*   Updated: 2024/07/04 18:16:55 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,17 @@
 # include <stdlib.h>
 # include <stdarg.h>
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 20
+# endif
+
 char	*get_next_line(int fd);
 
 char	*ft_read(char *str, int fd);
 
 char	*ft_strchr(char *str, int c);
 
-char    *ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char *s1, char *s2);
 
 char	*ft_extract_line(char *buffer);
 
@@ -34,8 +38,6 @@ char	*ft_get_remaining(char *buffer);
 
 void	*ft_calloc(size_t nmemb, size_t size);
 
-#endif
+void	ft_clean(void);
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 10
 #endif

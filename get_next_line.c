@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:31:04 by rdalal            #+#    #+#             */
-/*   Updated: 2024/06/24 21:45:56 by rdalal           ###   ########.fr       */
+/*   Updated: 2024/07/04 17:45:48 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,31 @@ size_t	ft_strlen(char *str)
 	return (len);
 }
 
-char	*ft_extract_line(char *buffer)
+char	*ft_extract_line(char *str)
 {
 	int		i;
 	char	*line;
 
 	i = 0;
-	if (!buffer[i])
+	if (!str[i])
 		return (NULL);
-	while (buffer[i] && buffer[i] != '\n')
+	while (str[i] && str[i] != '\n')
 		i++;
-	line = ft_calloc(i + (buffer[i] == '\n') + 1, sizeof(char));
+	line = ft_calloc(i + (str[i] == '\n') + 1, sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
+	while (str[i] && str[i] != '\n')
 	{
-		line[i] = buffer[i];
+		line[i] = str[i];
 		i++;
 	}
-	if (buffer[i] && buffer[i] == '\n')
+	if (str[i] && str[i] == '\n')
 		line[i++] = '\n';
 	return (line);
 }
 
-char	*ft_get_remaining(char *buffer)
+char	*ft_get_remaining(char *str)
 {
 	int		i;
 	int		j;
@@ -54,23 +54,24 @@ char	*ft_get_remaining(char *buffer)
 
 	i = 0;
 	j = 0;
-	while (buffer[i] && buffer[i] != '\n')
+	while (str[i] && str[i] != '\n')
 		i++;
-	if (!buffer[i])
+	if (!str[i])
 	{
-		free (buffer);
+		free (str);
 		return (NULL);
 	}
-	dup = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	dup = ft_calloc((ft_strlen(str) - i + 1), sizeof(char));
 	if (!dup)
-	{
-		free (buffer);
-		return (NULL);
-	}
+		return (free(str), NULL);
 	i += 1;
-	while (buffer[i])
-		dup[j++] = buffer[i++];
-	free (buffer);
+	while (str[i])
+	{
+		dup[j] = str[i];
+		j++;
+		i++;
+	}
+	free (str);
 	return (dup);
 }
 
@@ -93,11 +94,12 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = ft_extract_line(buffer);
 	if (!line)
-	{
-		free (buffer);
-		buffer = NULL;
-		return (NULL);
-	}
+		return (free(buffer), buffer = NULL);
 	buffer = ft_get_remaining(buffer);
 	return (line);
+}
+
+void	ft_clean(void)
+{
+	get_next_line(-42);
 }

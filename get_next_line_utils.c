@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:31:19 by rdalal            #+#    #+#             */
-/*   Updated: 2024/06/24 21:30:30 by rdalal           ###   ########.fr       */
+/*   Updated: 2024/07/04 18:17:08 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	i = 0;
 	while (i < size_total)
 	{
-		pntr[i] = 0;
+		pntr[i] = '\0';
 		i++;
 	}
 	return (pntr);
@@ -41,17 +41,17 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	if (!s1 && !s2)
+	if (!s1 || !s2)
 		return (NULL);
-	result = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	result = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!result)
-		return (NULL);
-	while (s1 && s1[i])
+		return (free(s1), NULL);
+	while (s1[i])
 	{
 		result[i] = s1[i];
 		i++;
 	}
-	while (s2 && s2[j])
+	while (s2[j])
 	{
 		result[i + j] = s2[j];
 		j++;
@@ -66,6 +66,8 @@ char	*ft_strchr(char *str, int c)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if (str[i] == (char) c)
@@ -82,14 +84,14 @@ char	*ft_read(char *str, int fd)
 	char	*buffer;
 	int		bytes_read;
 
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!buffer)
-		return (free(str), NULL);
 	if (!str)
 		str = ft_calloc(1, 1);
 	if (!str)
 		return (NULL);
 	bytes_read = 1;
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (free(str), NULL);
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
@@ -100,6 +102,5 @@ char	*ft_read(char *str, int fd)
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
-	free (buffer);
-	return (str);
+	return (free(buffer), str);
 }
