@@ -38,6 +38,5 @@ char	*ft_get_remaining(char *buffer);
 
 void	*ft_calloc(size_t nmemb, size_t size);
 
-void	ft_clean(void);
-
+void	ft_clean(void)attribute((distructor));
 #endif
