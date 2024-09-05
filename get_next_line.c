@@ -6,7 +6,7 @@
 /*   By: rdalal <rdalal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 16:31:04 by rdalal            #+#    #+#             */
-/*   Updated: 2024/07/04 17:45:48 by rdalal           ###   ########.fr       */
+/*   Updated: 2024/09/05 18:35:41 by rdalal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,4 @@ char	*get_next_line(int fd)
 		return (free(buffer), buffer = NULL);
 	buffer = ft_get_remaining(buffer);
 	return (line);
-}
-
-void	ft_clean(void)
-{
-	get_next_line(-42);
 }
